@@ -40,7 +40,7 @@ class nav
 		nav(grid);
 
 		int interrupt(isr sensor_interrupt);	
-		void computePath();
+		int computeRectilinearPath(grid new_destination);
 		task nextTask();
 		void doneTask();
 		int reset(grid);

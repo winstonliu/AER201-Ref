@@ -54,8 +54,12 @@ int nav::set_destination(grid new_destination)
 	return -1;
 }
 
-void nav::computePath()
+int nav::computeRectilinearPath(grid new_destination)
 {
+	// Check validity and set destination
+	if (set_destination(new_destination) == -1)
+		return -1;
+
 	// Computes the path the robot will take
 	int next_xd;
 	int next_yd;
@@ -110,6 +114,8 @@ void nav::computePath()
 	thendo.do_now = ROTATETO;		
 	thendo.value = destination.d;
 	taskMaster.push(thendo);
+
+	return 0;
 }
 
 task nav::nextTask() { return taskMaster.front(); }
