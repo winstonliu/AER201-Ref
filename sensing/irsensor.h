@@ -4,7 +4,11 @@
 
 class IRSensor: public Sensor
 {
+	private:
+		int prevState;
+		int numCyclesTrack;
 	public:
-		IRSensor(int pin);
-		int detect();
+		IRSensor(int pin, int numCyclesTrack = 3);
+		int detect(int black_white_diff_thresh);
+		bool pastEncounters();	
 };
