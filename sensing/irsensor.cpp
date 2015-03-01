@@ -4,9 +4,6 @@ IRSensor::IRSensor(int sv, int nct):Sensor(sv), numCyclesTrack(nct) {};
 
 int IRSensor::detect(int diffThresh)
 {
-	//int wdiff = pow(sensorVal - thresh[WHITE], 2);
-	//int bdiff = pow(sensorVal - thresh[BLACK], 2);
-	
 	int wdiff = pow(sensorVal - thresh[WHITE], 2);
 	int bdiff = pow(sensorVal - thresh[BLACK], 2);
 

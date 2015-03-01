@@ -35,10 +35,10 @@
 
 
 // color define 
-#define WHITE           0
-#define RED             1
-#define GREEN           2
-#define BLUE            3
+//#define WHITE           0
+//#define RED             1
+//#define GREEN           2
+//#define BLUE            3
 
 #define REG_RED         0x04        // pwm2
 #define REG_GREEN       0x03        // pwm1

@@ -163,5 +163,7 @@ int nav::checkTaskComplete()
 }
 
 bool nav::doneTasks() { return tasklist.isEmpty(); }
+int nav::countRemaining() { return tasklist.count(); }
 action nav::getAction() { return currentAction; }
 grid nav::getGrid() { return currentGrid; }
+grid nav::getDestination() { return destination; }

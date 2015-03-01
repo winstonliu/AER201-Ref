@@ -60,6 +60,8 @@ class nav
 		int reset(grid);
 		int set_destination(grid new_destination);
 		bool doneTasks();
+		int countRemaining();
 		action getAction();
 		grid getGrid();
+		grid getDestination();
 };
