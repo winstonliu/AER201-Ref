@@ -155,6 +155,7 @@ public:
 		// ISR
 		kEventLineISR,
 
+		kEventDone,
 		kEventMoveForward
 
 	};
