@@ -10,5 +10,5 @@ class IRSensor: public Sensor
 	public:
 		IRSensor(int pin, int numCyclesTrack = 3);
 		int detect(int black_white_diff_thresh);
-		bool pastEncounters();	
+		int pastEncounters();	
 };

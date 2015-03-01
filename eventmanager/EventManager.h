@@ -138,37 +138,26 @@ public:
         kEventAnalog4,
         kEventAnalog5,
         
-        // Menu events
-        kEventMenu0,
-        kEventMenu1,
-        kEventMenu2,
-        kEventMenu3,
-        kEventMenu4,
-        kEventMenu5,
-        kEventMenu6,
-        kEventMenu7,
-        kEventMenu8,
-        kEventMenu9,
-
-        // Serial event, example: a new char is available
+		// Serial event, example: a new char is available
         // param: the return value of Serial.read()
         kEventSerial,
         
         // LCD screen needs to be refreshed
         kEventPaint,
 
-        // User events
-        kEventUser0,
-        kEventUser1,
-        kEventUser2,
-        kEventUser3,
-        kEventUser4,
-        kEventUser5,
-        kEventUser6,
-        kEventUser7,
-        kEventUser8,
-        kEventUser9     
-    };
+		// Display
+		kEventDisplaySerial,
+		kEventDisplayLCD,
+
+		kEventCalibrate,
+		kEventSensorPolling,
+
+		// ISR
+		kEventLineISR,
+
+		kEventMoveForward
+
+	};
 
     
     // Create an event manager

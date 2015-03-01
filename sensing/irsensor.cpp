@@ -18,7 +18,7 @@ int IRSensor::detect(int diffThresh)
 	return prevState;
 }
 
-bool pastEncounters()
+int pastEncounters()
 {
 	static int cyclesPast = 0;
 
@@ -28,7 +28,7 @@ bool pastEncounters()
 		--cyclesPast;
 
 	if (cyclesPast > 0)
-		return true;
+		return BLACK;
 	else
-		return false;
+		return WHITE;
 }
