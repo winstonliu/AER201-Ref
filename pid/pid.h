@@ -31,6 +31,7 @@ class PID {
 
 	public:
 		// by default off
+		PID() {};
 		PID(int& in, const int& set, int& out, double p = 0.5, double i = 0, double d = 0, bool res = 1);
 
 		bool compute();

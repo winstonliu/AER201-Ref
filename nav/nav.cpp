@@ -1,4 +1,3 @@
-#include <cmath>
 #include "nav.h"
 
 nav::nav(grid start_position)
@@ -11,26 +10,14 @@ nav::nav(grid start_position)
 // Check the validity of grid coordinates
 bool nav::check_validity(grid coordinates)
 {
-	if (grid.x < 1 || grid.x > 7)
+	if (coordinates.x < 1 || coordinates.x > 7)
 		return false;
-	else if (grid.y < 1 || grid.y > 8)
+	else if (coordinates.y < 1 || coordinates.y > 8)
 		return false;
-	else if (grid.d < 0 || grid.d > 359)
+	else if (coordinates.d < 0 || coordinates.d > 359)
 		return false;
 	else
 		return true;
-}
-
-// Sensory input events
-int nav::interrupt(isr action)
-{
-	switch(action)
-	{
-		case LINE_ISR:
-			break;
-		case TOUCH_ISR:
-			break;
-	}	
 }
 
 // FOR EMERGENCIES ONLY, reset grid coordinates
@@ -81,14 +68,14 @@ int nav::interrupt(isr senInt)
 	// Forward drive intersects line
 	if (senInt == LINE_ISR && currentAction == MOVEFORWARD)	
 	{
-		int new_grid = directionalLineIncrement(1);
+		grid new_grid = directionalLineIncrement(1);
 		if (check_validity(new_grid) == true)
 		{
 			currentGrid = new_grid;
 		}
 	}
 	// Rotation intersects line
-	else (senInt == LINE_ISR && currentAction == ROTATETO)
+	else if (senInt == LINE_ISR && currentAction == ROTATETO)
 	{
 		// XXX Assuming that the robot only turns to the left
 		currentGrid.d = (currentGrid.d - 90) % 360;
@@ -159,10 +146,10 @@ int nav::computeRectilinearPath(grid new_destination)
 	return 0;
 }
 
-void startTask()
+void nav::startTask()
 {
-	currentAction = tasklist.front().do_now;
-	taskdestination = directionalLineIncrement(tasklist.front().value);
+	currentAction = tasklist.peek().do_now;
+	taskdestination = directionalLineIncrement(tasklist.peek().value);
 }
 
 int nav::checkTaskComplete() 
@@ -175,6 +162,6 @@ int nav::checkTaskComplete()
 	}
 }
 
-int nav::tasksLeft() { return tasklist.size(); }
+bool nav::doneTasks() { return tasklist.isEmpty(); }
 action nav::getAction() { return currentAction; }
 grid nav::getGrid() { return currentGrid; }

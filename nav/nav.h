@@ -1,4 +1,5 @@
 #pragma once
+#include <QueueArray.h>
 
 enum isr
 {
@@ -25,6 +26,9 @@ struct grid
 	int y;  // y coordinates
 	int d;	// 0 to 359, N:0, E:90, S:180, W:270
 
+	grid() {}
+	grid(int a, int b, int c) : x(a), y(b), d(c) {}
+
 	bool operator==(const grid& a) const
 	{
 		return (x == a.x && y == a.y && d == a.d);
@@ -35,7 +39,7 @@ class nav
 {
 	// Navigation class with event-driven interrupts
 	private:
-		std::queue<task> tasklist;
+		QueueArray <task> tasklist;
 		bool on_grid;
 		action currentAction;
 		grid currentGrid;
@@ -45,7 +49,7 @@ class nav
 		grid hopperWest;
 
 		bool check_validity(grid new_position);
-		int directionalLineIncrement();
+		grid directionalLineIncrement(int i);
 	public:
 		nav(grid);
 
@@ -55,7 +59,7 @@ class nav
 		int checkTaskComplete();
 		int reset(grid);
 		int set_destination(grid new_destination);
-		int tasksLeft();
+		bool doneTasks();
 		action getAction();
 		grid getGrid();
 };

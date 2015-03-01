@@ -18,7 +18,7 @@ int IRSensor::detect(int diffThresh)
 	return prevState;
 }
 
-int pastEncounters()
+int IRSensor::pastEncounters()
 {
 	static int cyclesPast = 0;
 

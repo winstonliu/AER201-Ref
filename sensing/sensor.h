@@ -22,6 +22,7 @@ class Sensor
 		int sensorPin;
 		int thresh[3];
 	public:
+		Sensor() {};
 		Sensor(int pin);
 		int readSensor();
 		int getValue();
