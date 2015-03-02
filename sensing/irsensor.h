@@ -9,7 +9,7 @@ class IRSensor: public Sensor
 		int numCyclesTrack;
 	public:
 		IRSensor() {};
-		IRSensor(int pin, int numCyclesTrack = 3);
+		IRSensor(int pin, int numCyclesTrack = 1);
 		int detect(int black_white_diff_thresh = 100);
 		int pastEncounters();	
 };

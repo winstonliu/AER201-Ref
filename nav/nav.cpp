@@ -5,6 +5,7 @@ nav::nav(grid start_position)
 	currentGrid = start_position;	
 	destination = start_position;
 	currentAction = IDLE;
+	FLAG_unpause = false;
 }
 
 // Check the validity of grid coordinates
@@ -119,6 +120,11 @@ int nav::computeRectilinearPath(grid new_destination)
 	}
 
 	// Rotate to face x
+	thendo.do_now = PAUSE;		
+	thendo.value = 0;
+	tasklist.push(thendo);
+
+	// Rotate to face x
 	thendo.do_now = ROTATETO;		
 	thendo.value = next_xd;
 	tasklist.push(thendo);
@@ -149,17 +155,28 @@ int nav::computeRectilinearPath(grid new_destination)
 void nav::startTask()
 {
 	currentAction = tasklist.peek().do_now;
-	taskdestination = directionalLineIncrement(tasklist.peek().value);
+	if (currentAction == MOVEFORWARD)
+	{
+		taskdestination = directionalLineIncrement(tasklist.peek().value);
+	}
+	else if (currentAction == ROTATETO)
+	{
+		taskdestination = currentGrid;
+		taskdestination.d = tasklist.peek().value;
+	}
+
 }
 
 int nav::checkTaskComplete() 
 { 
-	if (currentGrid == taskdestination)
+	if ((currentAction !=  PAUSE && currentGrid == taskdestination) ||
+		(currentAction == PAUSE && FLAG_unpause == true))
 	{
 		tasklist.pop(); 
 		currentAction = IDLE;
 		return 0;
 	}
+	return -1;
 }
 
 bool nav::doneTasks() { return tasklist.isEmpty(); }

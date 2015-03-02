@@ -11,6 +11,7 @@ enum action
 {
 	MOVEFORWARD,
 	ROTATETO,
+	PAUSE,
 	IDLE
 };
 
@@ -29,6 +30,14 @@ struct grid
 	grid() {}
 	grid(int a, int b, int c) : x(a), y(b), d(c) {}
 
+	grid& operator=(const grid& a)
+	{
+		x = a.x;
+		y = a.y;
+		d = a.d;
+		return *this;
+	}
+
 	bool operator==(const grid& a) const
 	{
 		return (x == a.x && y == a.y && d == a.d);
@@ -44,14 +53,15 @@ class nav
 		action currentAction;
 		grid currentGrid;
 		grid destination;
-		grid taskdestination;
 		grid hopperEast;
 		grid hopperWest;
 
 		bool check_validity(grid new_position);
 		grid directionalLineIncrement(int i);
 	public:
+		grid taskdestination;
 		nav(grid);
+		bool FLAG_unpause;
 
 		int interrupt(isr sensor_interrupt);	
 		int computeRectilinearPath(grid new_destination);
