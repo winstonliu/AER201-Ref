@@ -13,19 +13,19 @@ int mapLinePid(bool l, bool m, bool r)
 	*/
 	// 110
 	if ((!l|!m|r) == ON_WHITE)
-		state = 2;
+		state = 20;
 	// 001
 	else if ((l|m|!r) == ON_WHITE)
-		state = 1;
-	// 010 or 111
-	else if ((l|!m|r) == ON_WHITE or (!l|!m|!r) == ON_WHITE)
+		state = 10;
+	// 010 or 111 or 000
+	else if ((l|!m|r) == ON_WHITE || (!l|!m|!r) == ON_WHITE || (l|m|r) == ON_WHITE)
 		state = 0;
 	// 100
 	else if ((!l|m|r) == ON_WHITE)
-		state = -1;
+		state = -10;
 	// 011
 	else if ((l|!m|!r) == ON_WHITE)
-		state = -2;
+		state = -20;
 
 	return state;
 }

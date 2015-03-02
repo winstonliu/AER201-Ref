@@ -47,7 +47,8 @@ struct grid
 class nav
 {
 	// Navigation class with event-driven interrupts
-	private:
+	// DEBUG make stuff to private after
+	public:
 		QueueArray <task> tasklist;
 		bool on_grid;
 		action currentAction;
@@ -58,7 +59,7 @@ class nav
 
 		bool check_validity(grid new_position);
 		grid directionalLineIncrement(int i);
-	public:
+
 		grid taskdestination;
 		nav(grid);
 		bool FLAG_unpause;
