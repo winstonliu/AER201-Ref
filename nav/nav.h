@@ -9,8 +9,11 @@ enum isr
 
 enum action
 {
-	MOVEFORWARD,
+	MOVEONGRID,
+	MOVEOFFGRID, // 1 forward, 0 reverse
 	ROTATETO,
+	HOPPERALIGN,
+	CLAWMOVE, // 1 extend, 0 retract
 	PAUSE,
 	IDLE
 };
@@ -19,6 +22,8 @@ struct task
 {
 	action do_now;
 	int value;
+
+	task(action a, int v) : do_now(a), value(v) {}
 };
 
 struct grid

@@ -8,9 +8,9 @@ nav::nav(grid start_position)
 	FLAG_unpause = false;
 }
 
-// Check the validity of grid coordinates
 bool nav::check_validity(grid coordinates)
 {
+	// Check the validity of grid coordinates
 	if (coordinates.x < 1 || coordinates.x > 7)
 		return false;
 	else if (coordinates.y < 1 || coordinates.y > 8)
@@ -21,9 +21,9 @@ bool nav::check_validity(grid coordinates)
 		return true;
 }
 
-// FOR EMERGENCIES ONLY, reset grid coordinates
 int nav::reset(grid new_position)
 {
+	// FOR EMERGENCIES ONLY, reset grid coordinates
 	if (nav::check_validity(new_position) == true)
 	{
 		currentGrid = new_position;
@@ -32,9 +32,9 @@ int nav::reset(grid new_position)
 	return -1;
 }
 
-// Set next destination coordinates of the robot
 int nav::set_destination(grid new_destination)
 {
+	// Set next destination coordinates of the robot
 	if (nav::check_validity(new_destination) == true)
 	{
 		destination = new_destination;
@@ -67,7 +67,7 @@ grid nav::directionalLineIncrement(int i)
 int nav::interrupt(isr senInt)
 {
 	// Forward drive intersects line
-	if (senInt == LINE_ISR && currentAction == MOVEFORWARD)	
+	if (senInt == LINE_ISR && currentAction == MOVEONGRID)	
 	{
 		grid new_grid = directionalLineIncrement(1);
 		if (check_validity(new_grid) == true)
@@ -92,7 +92,6 @@ int nav::computeRectilinearPath(grid new_destination)
 	// Computes the path the robot will take
 	int next_xd;
 	int next_yd;
-	task thendo;
 	grid difference;
 
 	difference.x = destination.x - currentGrid.x;
@@ -119,43 +118,30 @@ int nav::computeRectilinearPath(grid new_destination)
 		next_yd = 0;
 	}
 
-	// Rotate to face x
-	thendo.do_now = PAUSE;		
-	thendo.value = 0;
-	tasklist.push(thendo);
-
-	// Rotate to face x
-	thendo.do_now = ROTATETO;		
-	thendo.value = next_xd;
-	tasklist.push(thendo);
-
-	// Move x
-	thendo.do_now = MOVEFORWARD;
-	thendo.value = difference.x;
-	tasklist.push(thendo);
-
-	// Rotate to face y
-	thendo.do_now = ROTATETO;		
-	thendo.value = next_yd;
-	tasklist.push(thendo);
-
-	// Move y
-	thendo.do_now = MOVEFORWARD;
-	thendo.value = difference.y;
-	tasklist.push(thendo);
-
-	// Rotate to face final
-	thendo.do_now = ROTATETO;		
-	thendo.value = destination.d;
-	tasklist.push(thendo);
+	tasklist.push(task(PAUSE, 0));
+	tasklist.push(task(ROTATETO, next_xd)); // Rotate to face x
+	tasklist.push(task(MOVEONGRID, difference.x)); // Move x
+	tasklist.push(task(ROTATETO, next_yd)); // Rotate to face y
+	tasklist.push(task(MOVEONGRID, difference.y)); // Move y
+	tasklist.push(task(ROTATETO, destination.d)); // Rotate to face final
 
 	return 0;
 }
 
+int nav::hopperBerthing()
+{
+	tasklist.push(task(CLAWMOVE, 1)); // Extend claw
+	tasklist.push(task(MOVEOFFGRID, 1)); // Keep moving until interrupt
+	tasklist.push(task(HOPPERALIGN, 0)); // Align with hopper
+	tasklist.push(task(CLAWMOVE, 0)); // Retract claw
+	tasklist.push(task(MOVEOFFGRID, 0)); // Reverse
+}
+
 void nav::startTask()
 {
+	// Process the tasks
 	currentAction = tasklist.peek().do_now;
-	if (currentAction == MOVEFORWARD)
+	if (currentAction == MOVEONGRID)
 	{
 		taskdestination = directionalLineIncrement(tasklist.peek().value);
 	}
