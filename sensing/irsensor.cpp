@@ -17,15 +17,16 @@ int IRSensor::detect(int diffThresh)
 
 int IRSensor::pastEncounters()
 {
+	// Counts the number of past cycles that sensors has read black
 	static int cyclesPast = 0;
 
-	if (prevState != WHITE)
+	if (prevState != BLACK)
 		cyclesPast = numCyclesTrack;
 	else if (cyclesPast > 0)
 		--cyclesPast;
 
 	if (cyclesPast > 0)
-		return BLACK;
-	else
 		return WHITE;
+	else
+		return BLACK;
 }
