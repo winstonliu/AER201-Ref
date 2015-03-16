@@ -5,11 +5,16 @@
 class IRSensor: public Sensor
 {
 	private:
+		static const int readingSize = 3;
+		int sensorReadings[readingSize]; // Perform 3 readings
 		int prevState;
 		int numCyclesTrack;
+		int blackthresh; // for ~4.7k
 	public:
 		IRSensor() {};
 		IRSensor(int pin, int numCyclesTrack = 1);
-		int detect(int black_white_diff_thresh = 100);
+		void dynamicCalibration();
+		int readSensor(); // overload
+		int detect();
 		int pastEncounters();	
 };

@@ -2,24 +2,49 @@
 
 IRSensor::IRSensor(int sv, int nct):Sensor(sv), numCyclesTrack(nct) {};
 
-int IRSensor::detect(int diffThresh)
+int IRSensor::readSensor()
 {
-	int wdiff = pow(sensorVal - thresh[WHITE], 2);
-	int bdiff = pow(sensorVal - thresh[BLACK], 2);
-
-	if (bdiff < diffThresh)
-		prevState = BLACK;
-	else
-		prevState = WHITE;
-
-	return prevState;
+	int avg = 0;
+	for (int i = 0; i < readingSize; ++i)
+	{
+		sensorReadings[i] = analogRead(sensorPin);	
+		avg += sensorReadings[i];
+	}
+	avg /= readingSize;
+	
+	return avg;
 }
 
+int IRSensor::detect()
+{
+	int numBlack = 0;
+	int retVal;
+	for (int i = 0; i < readingSize; ++i)
+	{
+		if (sensorReadings[i] > blackthresh) ++numBlack;
+	}
+
+	return ((numBlack >=  2) ? BLACK : WHITE);
+}
+
+void IRSensor::dynamicCalibration()
+{
+	const int cycles = 10;
+	int valmax = 0;
+	int valmin = 1000;
+	int sum = 0;
+	int avg;
+	// White is lowest value, black is highest value. Red is always 0
+	for (int i = 0; i < cycles; ++i)
+	{
+		sum += readSensor();			
+	}
+	avg = sum / cycles;	
+}
+
+// May not be necessary
 int IRSensor::pastEncounters()
 {
-	// Counts the number of past cycles that sensors has read black
-	static int cyclesPast = 0;
-
 	if (prevState != BLACK)
 		cyclesPast = numCyclesTrack;
 	else if (cyclesPast > 0)

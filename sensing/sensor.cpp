@@ -13,10 +13,7 @@ int Sensor::readSensor()
 	return sensorVal;
 }
 
-int Sensor::getValue()
-{
-	return sensorVal;
-}
+int Sensor::getValue() { return sensorVal; }
 
 void Sensor::setThresh(int* values)
 {
