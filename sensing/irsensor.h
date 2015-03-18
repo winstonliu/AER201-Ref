@@ -8,6 +8,7 @@ class IRSensor: public Sensor
 		static const int readingSize = 3;
 		int sensorReadings[readingSize]; // Perform 3 readings
 		int prevState;
+		int cyclesPast;
 		int numCyclesTrack;
 		int blackthresh; // for ~4.7k
 	public:
