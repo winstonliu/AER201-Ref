@@ -24,7 +24,7 @@ class Sensor
 	public:
 		Sensor() {};
 		Sensor(int pin);
-		int readSensor();
+		virtual int readSensor();
 		int getValue();
 		void setThresh(int* values);
 		void calibrate(int color);
