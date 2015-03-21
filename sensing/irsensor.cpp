@@ -1,9 +1,10 @@
 #include "irsensor.h"
 
-IRSensor::IRSensor(int sv, int nct):Sensor(sv), numCyclesTrack(nct) {};
+IRSensor::IRSensor(int sv, int nct, int bt):Sensor(sv), numCyclesTrack(nct), blackthresh(bt) {};
 
 int IRSensor::readSensor()
 {
+	// Read each sensor 3 times and take the average
 	int avg = 0;
 	for (int i = 0; i < readingSize; ++i)
 	{
@@ -24,6 +25,7 @@ int IRSensor::detect()
 		if (sensorReadings[i] > blackthresh) ++numBlack;
 	}
 
+	// If more than two readings are black, then return black
 	return ((numBlack >=  2) ? BLACK : WHITE);
 }
 

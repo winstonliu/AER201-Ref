@@ -13,7 +13,7 @@ class IRSensor: public Sensor
 		int blackthresh; // for ~4.7k
 	public:
 		IRSensor() {};
-		IRSensor(int pin, int numCyclesTrack = 1);
+		IRSensor(int pin, int numCyclesTrack = 1, int blackthresh = 600);
 		void dynamicCalibration();
 		int readSensor(); // overload
 		int detect();
