@@ -23,7 +23,7 @@ void motor::right(int speed)
 	status = MOTOR_RIGHT;
 
 	// PWM
-	digitalWrite(enable, speed);
+	analogWrite(enable, speed);
     digitalWrite(direction, LOW);
 }
 
@@ -32,7 +32,7 @@ void motor::left(int speed)
 	status = MOTOR_LEFT;
 
 	// PWM
-	digitalWrite(enable, speed);
+	analogWrite(enable, speed);
     digitalWrite(direction, HIGH);
 }
 
@@ -62,7 +62,4 @@ void motor::reverseDirection(int speed)
 	}	
 }
 
-motor_states motor::get_status() 
-{ 
-	return status; 
-}
+motor_states motor::get_status() { return status; }
