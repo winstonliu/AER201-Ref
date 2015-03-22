@@ -33,12 +33,11 @@ void motor::left(int speed)
 
 	// PWM
 	digitalWrite(enable, speed);
-    digitalWrite(direction, HIGH);    
+    digitalWrite(direction, HIGH);
 }
 
 void motor::adjustSpeed(int speed)
 {
-	motorspeed = speed;
 	switch(status)
 	{
 		case MOTOR_RIGHT:
