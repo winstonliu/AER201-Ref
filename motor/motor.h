@@ -12,17 +12,16 @@ class motor
 	private:
 		int enable;
 		int direction;
-		int motorspeed;
 		motor_states status;
 	public:
 		motor() {}
 		motor(int pin_enable, int pin_direction, int speed = 255);	
 		void stop();
 		// LOW direction pin implies rightward rotation
-		void right(int speed = -42);
+		void right(int speed = 255);
 		// HIGH direction pin implies leftward rotation
-		void left(int speed = -42);
+		void left(int speed = 255);
 		void adjustSpeed(int speed = 255);
-		void reverseDirection();
+		void reverseDirection(int speed = 255);
 		motor_states get_status();
 };
