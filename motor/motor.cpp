@@ -5,6 +5,7 @@ motor::motor(int pin_enable, int pin_direction, int speed)
 {
 	enable = pin_enable;
 	direction = pin_direction;
+	motorspeed = 255;
 
 	// Enable motor pins
 	pinMode(enable, OUTPUT);
@@ -13,6 +14,7 @@ motor::motor(int pin_enable, int pin_direction, int speed)
 
 void motor::stop()
 {
+	motorspeed = 0;
 	status = MOTOR_OFF;
     digitalWrite(enable, LOW);
     digitalWrite(direction, LOW);    
@@ -21,6 +23,7 @@ void motor::stop()
 void motor::right(int speed)
 {
 	status = MOTOR_RIGHT;
+	motorspeed = speed;
 
 	// PWM
 	analogWrite(enable, speed);
@@ -30,6 +33,7 @@ void motor::right(int speed)
 void motor::left(int speed)
 {
 	status = MOTOR_LEFT;
+	motorspeed = speed;
 
 	// PWM
 	analogWrite(enable, speed);
@@ -38,6 +42,7 @@ void motor::left(int speed)
 
 void motor::adjustSpeed(int speed)
 {
+	motorspeed = speed;
 	switch(status)
 	{
 		case MOTOR_RIGHT:
@@ -51,6 +56,7 @@ void motor::adjustSpeed(int speed)
 
 void motor::reverseDirection(int speed)
 {
+	motorspeed = speed;
 	switch(status)
 	{
 		case MOTOR_RIGHT:

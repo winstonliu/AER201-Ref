@@ -14,6 +14,7 @@ class motor
 		int direction;
 		motor_states status;
 	public:
+		int motorspeed;
 		motor() {}
 		motor(int pin_enable, int pin_direction, int speed = 255);	
 		void stop();
