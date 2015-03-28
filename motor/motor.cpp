@@ -23,6 +23,12 @@ void motor::stop()
 void motor::right(int speed)
 {
 	status = MOTOR_RIGHT;
+
+	if (speed < 0)
+		speed = 0;
+	else if (speed > 255)
+		speed = 255;
+
 	motorspeed = speed;
 
 	// PWM
@@ -33,6 +39,12 @@ void motor::right(int speed)
 void motor::left(int speed)
 {
 	status = MOTOR_LEFT;
+
+	if (speed < 0)
+		speed = 0;
+	else if (speed > 255)
+		speed = 255;
+
 	motorspeed = speed;
 
 	// PWM
